@@ -24,14 +24,6 @@ Vamos instalar três módulos:
 
 vamos inicial com os testes de integração
 
----------------------------------------------------------------------
-
-server.js é o initial point da applicaçao nota, que separamos a responsabilidade de inicializar o express e os middlewares 
-no arquivo app.js.
-
-Como nos testes a aplicação será inicializada pelo supertest e não pelo express como é feito no server.js, 
-esse separação torna isso fácil.
-
 -----------------------------------------------------------------------
 
 O node ainda não da suporte completo ao ES6 (Ecmascript6) entao usaremos o babel como transpile antes de começar, apos o 
@@ -55,5 +47,70 @@ vamos criar o arquivo server.js
 para rodar o arquivo server.js será necessario a inclusao de um script no packge.json 
 "start": "babel-node ./server.js"
 
-------------------------------------------------------------------------
+STEP 3------------------------------------------------------------------------
 
+Desenvolvimento guiado por testes - TDD - Test Driven Development
+
+Ler pagina 21
+
+server.js é o initial point da applicaçao nota, que separamos a responsabilidade de inicializar o express e os middlewares 
+no arquivo app.js.
+
+Como nos testes a aplicação será inicializada pelo supertest e não pelo express como é feito no server.js, 
+esse separação torna isso fácil.
+
+vamos começar com os testes de integração e ficara dentro da pasta test na raiz
+
+
+MOCHA
+
+Sobre o arquivo mocha.opts
+
+O primeiro require será o arquivo referente as configurações de suporte para os testes.
+Reporters definem o estilo da saída do teste no terminal.
+Na terceira linha definimos os compilers, como iremos usar ES6, também nos testes usaremos o compiler do babel no Mocha. 
+slow referente a demora máxima que um caso de teste pode levar, como testes de integração tendem a depender de agentes 
+externos como banco de dados e etc, é necessário ter um tempo maior de slow para eles.
+
+
+Sobre o arquivo helpers.js
+
+O arquivo helpers é responsável por inicializar as configurações de testes que serão usadas em todos
+os testes de integração, removendo a necessidade de ter de realizar configurações em cada cenário
+de teste.
+
+Primeiro importamos os módulos necessários para executar os testes de integração que são o
+supertest e o chai e também a nossa aplicação express que chamamos de app.
+Depois definimos as globais usando global. Globais fazem parte do Mocha, tudo que for definido
+como global poderá ser acessado em qualquer teste sem a necessidade de ser importado.
+No nosso arquivo helpers configuramos o app para ser global, ou seja, caso seja necessário usá-lo
+em um caso de teste basta chamá-lo diretamente. Também é definido um global chamado request,
+que é o supertest recebendo o express por parâmetro.
+Lembram que falei da vantagem de separar a execução da aplicação da configuração do express?
+Agora o express pode ser executado por um emulador como o supertest.
+E por último o expect do Chai que será utilizado para fazer as asserções nos casos de teste.
+
+teste_spec.js
+
+O describe é uma global do Mocha usada para descrever suítes de testes que contém um ou mais
+casos de testes e/ou contém outras suítes de testes. Como esse é o describe que irá englobar todos os
+testes desse arquivo seu texto descreve a responsabilidade geral da suíte de testes que é testar a rota
+
+A função it também é uma global do Mocha e é responsável por descrever um caso de teste.
+Descrições de casos de teste seguem um padrão declarativo, como no exemplo acima: “Isso deve retornar uma lista de produtos"
+Note que também é passado um parâmetro chamado done para o caso de teste, isso ocorre porque
+testes que executam funções assíncronas, como requisições http, precisam informar ao Mocha
+quando o teste finalizou e fazem isso chamando a função done.
+
+Na implementação do teste usamos o supertest que exportamos globalmente como request no
+helpers.js. O supertest nos permite fazer uma requisição http para uma determinada rota e verificar
+a sua resposta.
+Quando a requisição terminar a função end será chamada pelo supertest e vai receber a resposta ou
+um erro, caso ocorra. No exemplo acima é verificado se o primeiro elemento da lista de produtos
+retornada é igual ao nosso defaultProduct.
+O expect usado para fazer a asserção faz parte do Chai e foi exposto globalmente no helpers.js.
+Para finalizar, notificamos o Mocha que o teste finalizou chamando a função done que recebe err
+como parâmetro, caso algum erro ocorra ele irá mostrar a mensagem de erro no terminal.
+
+
+--------------------------------------------------------------------------------
