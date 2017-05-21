@@ -39,3 +39,21 @@ npm init devemos instalar o babel npm install --save-dev babel-cli bebel-preset-
 
 o ultimo passo é criar o arquivo .babelrc apos esse pequenos passos , a aplicação tera suporte total ao ES6
 
+STEP2------------------------------------------------------------------------
+
+Express possui uma larga comunidade e atualmente é mantida pela node fundantion
+
+para começar precisamos instalar o express e o body-parser
+
+Quando uma requisição do tipo POST ou PUT é realizada, o corpo da requisição é transportado como
+texto. Para que seja possível transportar dados como JSON (JavaScript Object Notation) por exemplo
+existe o modulo body-parser²² que é um conjunto de middlewares para o express que analisa o corpo
+de uma requisição e transforma em algo definido, no nosso caso, em JSON
+
+vamos criar o arquivo server.js
+
+para rodar o arquivo server.js será necessario a inclusao de um script no packge.json 
+"start": "babel-node ./server.js"
+
+------------------------------------------------------------------------
+
