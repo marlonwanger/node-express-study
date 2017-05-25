@@ -114,3 +114,31 @@ como parâmetro, caso algum erro ocorra ele irá mostrar a mensagem de erro no t
 
 
 --------------------------------------------------------------------------------
+
+TESTE UNIT
+
+bom basicamente o teste unitaria serve para testar pequenas partes de um software de forma isolada
+
+da mesma forma que o teste de integração , sera necessario a criação de um arquivo 
+helpers.js e de um arquivo mocha.opts
+
+e tambem é necessario adicionar o comando no package.json
+
+para os testes unitarios será utilizado  o SINON  uma biblioteca que irá nos ajudar a trabalhar
+com spies, stubs e mocks, os quais serão necessários para garantir o isolamento dos testes unitários.
+
+Sobre o teste 
+
+A primeira adição foi o import do Sinon, módulo que instalamos anteriormente.
+Logo após a descrição do nosso cenário de teste principal adicionamos uma constant chamada
+defaultProduct que armazena um array com um objeto referente
+
+Dentro do caso de teste foram adicionadas duas constants: request, que é um objeto fake da
+requisição enviada pela rota do express, que vamos chamar de req na aplicação, e response, que
+é um objeto fake da resposta enviada pela rota do express, a qual vamos chamar de res na aplicação.
+
+Note que a propriedade send do objeto response recebe um spy do Sinon, como vimos anteriormente,
+no capítulo de test doubles, os spies permitem gravar informações como quantas vezes uma função
+foi chamada, quais parâmetros ela recebeu e etc
+
+
