@@ -2,8 +2,16 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import routes from './routes';
 
+import config from './config/config';
+import database from './config/database';
+
 const app = express();
+
+app.config = config;
+app.database = database(app);
+
 app.use(bodyParser.json());
 app.use('/', routes);
+
 
 export default app;
