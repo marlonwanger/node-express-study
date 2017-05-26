@@ -141,4 +141,31 @@ Note que a propriedade send do objeto response recebe um spy do Sinon, como vimo
 no capítulo de test doubles, os spies permitem gravar informações como quantas vezes uma função
 foi chamada, quais parâmetros ela recebeu e etc
 
+----------------------------
+DATABASE
+
+Vamos utilizar o sequelize , um ORM que permite a utilização de diversos DBs nesse caso, vou utilizar o sqlite
+pela facilidade
+
+primeiro , criamos o arquivo config.js onde vamos setar diversas propriedade em um objeto para poupar tempo e 
+reutiliza-las quando necessario.
+
+em seguida criamos o arquivo database.js onde vamos iniciar o sequelize;
+
+nesse arquivo é importante notar algumas coisas por exemplo
+
+export default (app) =>  , antes de exportar a funcao é necessario um parametro  app, se olharmos o arquivo app.js,
+vamos notar que lá esta os imports do config e do database.js isso nos ajuda a manter a injeção de dependencia mais facil
+e facilita os testes pois nao estou importante diretamente no database.js mais passando por parametro o arquivo que
+possui essa dependencia.
+
+e por fim    
+
+sequelize.sync().done( () => {
+  return database;
+}); 
+
+vai garantir que sempre que a aplicação iniciar ele vai sincronizar
+    
+
 
