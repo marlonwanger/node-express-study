@@ -3,6 +3,8 @@ import sinon from 'sinon';
 
 describe('Controllers: Users', () => {
   
+  const Users = app.database.models.Users;
+  
   const defaultUser = [{
     name: 'Marlon',
     email: 'teste@mail.com',
@@ -10,20 +12,48 @@ describe('Controllers: Users', () => {
   }];
   
   describe('get() users', () => {
-    it('Should return a list of users', () => {
+    it('should call send with a list of users', () => {
 
       const request = {};
       const response = {
         send: sinon.spy()
       }
 
-      const usersController = new UsersController();
+      Users.findAll = sinon.stub();
 
-      usersController.get(request, response);
+      Users.findAll.withArgs({}).resolves(defaultUser);
 
-      expect(response.send.called).to.be.true; //Verifica se a funcao send foi chamada
-      expect(response.send.calledWith(defaultUser)).to.be.true; //verifica se foi chamada com o objeto fake
+      const usersController = new UsersController(Users);
+
+      return usersController.get(request, response)
+        .then( () => {
+          sinon.assert.calledWith(response.send, defaultUser);
+        });
 
     });
+
+    it('should return 400 when an error occurs', () => {
+      
+      const request = {};
+
+      const response = {
+        send: sinon.spy(),
+        status: sinon.stub()
+      };
+
+      response.status.withArgs(400).returns(response);
+
+      Users.findAll = sinon.stub();
+      Users.findAll.withArgs({}).rejects({ message: 'Error' });
+
+      const usersController = new UsersController(Users);
+
+      return usersController.get(request, response)
+        .then( () => {
+          sinon.assert.calledWith(response.send, 'Error');
+        });
+
+    });
+
   });
 });

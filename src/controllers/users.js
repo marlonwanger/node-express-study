@@ -1,11 +1,13 @@
 class UsersController {
 
+  constructor(User) {
+    this.user = User;
+  }
+
   get(req,res) {
-    return res.send([{
-      name: 'Marlon',
-      email: 'teste@mail.com',
-      password: '123456'
-    }]);
+    return this.user.findAll({})
+      .then(users => res.send(users))
+      .catch(err => res.status(400).send(err.message));
   }
 
 }

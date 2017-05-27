@@ -169,3 +169,24 @@ vai garantir que sempre que a aplicação iniciar ele vai sincronizar
     
 
 
+-------------------------------------------------
+
+MODELS
+
+como estamos utilizando o padrao mvc separamos toda nossa regra de negócio.
+basicamente no arquivo de model mapeamos como queremos que fique nossa tabela
+
+sequelize.define('Users', { id:{type: DataType.INTEGER} } e assim por diante.
+
+Uma sacada legal foi, no arquivo database.js foi criada uma funcao chamada loadModels , onde automatica todos o MODELS
+serao carregados
+
+TESTE UNIT
+
+agora como ja possuimos os models carregados dentro do nosso teste unitario fizemos algumas alteração.
+
+antes de tudo no controller criamos um constructor onde toda vez que alguem foi utilizar o controller é necessario
+passar o model como parametro.
+
+-----------------------------------------------------
+

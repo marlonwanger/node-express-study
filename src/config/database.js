@@ -1,6 +1,19 @@
 import Sequelize from 'sequelize';
+import fs from 'fs';
+import path from 'path';
 
 let database = null;
+
+const loadModels = (sequelize) => {
+  const dir = path.join(__dirname,'../models');
+  let models = [];
+  fs.readdirSync(dir).forEach( (file) => {
+    const modelDir = path.join(dir,file);
+    const model = sequelize.import(modelDir);
+    models[model.name] = model;
+  });
+  return models;
+};
 
 export default (app) => {
   
@@ -20,19 +33,11 @@ export default (app) => {
       models: {}
     }
 
+    database.models = loadModels(sequelize);
+
     sequelize.sync().done( () => {
       return database;
     });
-    
-    sequelize .authenticate()
-    .then(() => {
-      console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-      console.error('Unable to connect to the database:', err);
-    });
-
-
   }
 
   return database;
