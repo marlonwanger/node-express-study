@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import fs from 'fs';
 import path from 'path';
+import configdb from './configdb'
 
 let database = null;
 
@@ -15,16 +16,14 @@ const loadModels = (sequelize) => {
   return models;
 };
 
-export default (app) => {
-  
-  if(!database) {
+export default () => {
 
-    const config = app.config;
+  if(!database) {
     const sequelize = new Sequelize(
-      config.database,
-      config.username,
-      config.password,
-      config.params
+      configdb.database,
+      configdb.username,
+      configdb.password,
+      configdb.params
     );
 
     database = {
@@ -38,6 +37,7 @@ export default (app) => {
     sequelize.sync().done( () => {
       return database;
     });
+
   }
 
   return database;

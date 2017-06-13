@@ -15,6 +15,7 @@ describe('Controllers: Users', () => {
     it('should call send with a list of users', () => {
 
       const request = {};
+      
       const response = {
         send: sinon.spy()
       }

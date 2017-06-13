@@ -190,3 +190,11 @@ passar o model como parametro.
 
 -----------------------------------------------------
 
+TESTE INTEGRATION
+
+agora nossos testes nao estao apenas mais com valores fakes , eles realmente estao verificando
+valores reais e para isso vamos utilizar um callback do mocha chamado beforeEach que significa: 
+antes de cada. Esse callback é executado pelo Mocha antes de cada caso de teste, então ele é 
+perfeito para nosso cenário onde precisamos ter um produto disponível no banco antes de executar o 
+teste.
+
